@@ -6,8 +6,7 @@ require 'slack-notifier'
 class CloudwatchSlack < Sinatra::Base
   def slack
     Slack::Notifier.new ENV['SLACK_WEBHOOK_URL'],
-      :channel => ENV['SLACK_CHANNEL'], :username => 'Amazon Web Services',
-      :icon_url => ENV['ICON_URL']
+      :channel => ENV['SLACK_CHANNEL'], :username => 'Amazon Web Services'
   end
 
   post '/notify' do
@@ -23,7 +22,8 @@ class CloudwatchSlack < Sinatra::Base
         :text => cw['NewStateReason'],
         :color => 'danger'
       }]
-      slack.ping 'CloudWatch alert triggered', :attachments => attachments
+      slack.ping 'CloudWatch alert triggered', :attachments => attachments,
+        :icon_url => ENV['ICON_URL']
     elsif sns['Type'] == 'SubscriptionConfirmation'
       url = URI.parse(sns['SubscribeURL'])
       response = Net::HTTP.get_response(url)
