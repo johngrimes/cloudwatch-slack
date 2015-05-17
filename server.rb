@@ -22,7 +22,7 @@ class CloudwatchSlack < Sinatra::Base
         :text => cw['NewStateReason'],
         :color => 'danger'
       }]
-      slack.ping 'CloudWatch alert triggered', :attachments => attachments,
+      slack.ping 'CloudWatch alarm triggered', :attachments => attachments,
         :icon_url => ENV['ICON_URL']
     elsif sns['Type'] == 'SubscriptionConfirmation'
       url = URI.parse(sns['SubscribeURL'])
